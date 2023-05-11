@@ -130,6 +130,50 @@ def drop_table(table_name):
     conn.close()
 
 
+def create_table_champ_win_rate_any():
+    conn = sqlite3.connect('data/riot_data.db')
+    c = conn.cursor()
+    c.execute('''
+    CREATE TABLE IF NOT EXISTS champ_win_rate_any (
+        champ TEXT,
+        wins INTEGER,
+        losses INTEGER,
+        gameVersion TEXT,
+        winRate REAL,
+        lane TEXT,
+        PRIMARY KEY (gameVersion, champ, lane)
+    )
+    ''')
+    conn.commit()
+    conn.close()
+
+
+# insert or update
+def insert_update_champ_win_rate_any(data):
+    conn = sqlite3.connect('data/riot_data.db')
+    c = conn.cursor()
+    c.executemany('''
+    INSERT OR REPLACE INTO champ_win_rate_any (champ, wins, losses, gameVersion, winRate, lane)
+    VALUES (?, ?, ?, ?, ?, ?)''', data)
+    conn.commit()
+    conn.close()
+
+
+def is_exist_in_champ_win_rate_any(champ, gameVersion, lane):
+    column1 = 'champ'
+    column2 = 'gameVersion'
+    column3 = 'lane'
+    conn = sqlite3.connect('data/riot_data.db')
+    c = conn.cursor()
+    c.execute(f"SELECT * FROM champ_win_rate_any "
+              f"WHERE {column1} = ? AND {column2} = ? AND {column3} = ?",
+              (champ, gameVersion, lane))
+    row = c.fetchone()
+    conn.close()
+    return row
+
+
+
 def create_table_two_champ_combo_ally():
     # Connect to the SQLite database or create it if it doesn't exist
     conn = sqlite3.connect('data/riot_data.db')

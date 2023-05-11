@@ -66,18 +66,21 @@ class ChampPicker:
     def view_table(self, table_name):
         conn = sqlite3.connect('data/riot_data.db')
         c = conn.cursor()
-        c.execute(f"SELECT * FROM {table_name} ")
+        c.execute(f"""
+        SELECT * FROM {table_name} 
+        WHERE gameMode=='CLASSIC'""")
         rows = c.fetchall()
+        conn.close()
         conn.close()
         return rows
 
     def champ_recommender(self):
         # to recommend a list of champs for user with win rate based on selected champs
         num_selected_champs = len(self.selected_champs)
-        if num_selected_champs == 10:
-            return
-        else:
-            return self.switch_case(num_selected_champs)
+        # if num_selected_champs == 10:
+        #     return
+        # else:
+        return self.switch_case(num_selected_champs)
 
     def switch_case(self, num_selected_champs):
         #
@@ -142,14 +145,6 @@ class ChampPicker:
             self.team_1_win_rate = round((team_1_win_rate / (team_1_win_rate + team_2_win_rate) ) * 100, 1)
             self.team_2_win_rate = 100 - self.team_1_win_rate
 
-            if team_1_list != self.previous_team_1_list:
-                self.team_1_champs_with_win_rate = get_champ_with_win_rate(team_1_list)
-                self.previous_team_1_list = team_1_list
-
-            if team_2_list != self.previous_team_2_list :
-                self.team_2_champs_with_win_rate = get_champ_with_win_rate(team_2_list)
-                self.previous_team_2_list = team_2_list
-
         switch_dict = {
             1: any_selected,
             2: any_selected,
@@ -160,6 +155,7 @@ class ChampPicker:
             7: any_selected,
             8: any_selected,
             9: any_selected,
+            10: any_selected
         }
         # Get the function from the dictionary based on the value
         func = switch_dict.get(num_selected_champs)

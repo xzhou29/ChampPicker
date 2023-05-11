@@ -12,15 +12,35 @@ function ChampPickerPage() {
   const [teamTwoWinRate, setTeamTwoWinRate] = useState('50.0');
   const [selections, setSelections] = useState({});
   const [championData, setChampionData] = useState(initialChampionData);
-  const [championDataOne, setChampionDataOne] = useState(initialChampionData);
-  const [championDataTwo, setChampionDataTwo] = useState(initialChampionData);
+  const [championDataOne, setChampionDataOne] = useState();
+  const [championDataTwo, setChampionDataTwo] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (Object.keys(selections).length === 0) {
+        fetch(
+            'http://localhost:3000/api/initial_data', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(gameVersion)
+            }
+        )
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {      // data is the JSON response from your API
+          setChampionData(data.champDataAny)
+        })
+        .catch(error => {
+          console.error('There has been a problem with your fetch operation:', error);
+        });
         return
     }
-    console.log(selections);
     // axios.post('/api/'+'champ_picker?team=${team}&name=${name}&lane=${lane}')
     // fetch(`http://localhost:3000/api/champ_picker?selections=${selections}`
     fetch(
@@ -41,8 +61,8 @@ function ChampPickerPage() {
     .then(data => {      // data is the JSON response from your API
       setTeamOneWinRate(data.teamOneWinRate);
       setTeamTwoWinRate(data.teamTwoWinRate);
-      setChampionDataOne(data.teamOneChampPicks);
-      setChampionDataTwo(data.teamTwoChampPicks);
+      //setChampionDataOne(data.teamOneChampPicks);
+      //setChampionDataTwo(data.teamTwoChampPicks);
     })
     .catch(error => {
       console.error('There has been a problem with your fetch operation:', error);
@@ -50,15 +70,16 @@ function ChampPickerPage() {
   }, [selections]);
 
   const handleImageClickForData = (teamOn) => {
-    if (teamOn == 'Team 1') {
-        if (championDataOne !== undefined && championDataOne !== null) {
-            setChampionData(championDataOne);
-        }
-    } else  {
-        if (championDataTwo !== undefined && championDataTwo !== null) {
-            setChampionData(championDataTwo);
-        }
-    }
+    console.log(teamOn)
+//    if (teamOn == 'Team 1') {
+//        if (championDataOne !== undefined && championDataOne !== null) {
+//            setChampionData(championDataOne);
+//        }
+//    } else  {
+//        if (championDataTwo !== undefined && championDataTwo !== null) {
+//            setChampionData(championDataTwo);
+//        }
+//    }
   };
 
   const handleChange = (team, name, lane, prevName) => {

@@ -158,19 +158,15 @@ def get_lanes_map(current_game_version='13.9', threshold=10):
 
 
 
-lanes_map = get_lanes_map()
-selected_champs = []
-# BLUE
-selected_champs.append(('Graves', 'JUNGLE'))
-# RED
-selected_champs.append(('Brand', 'SUPPORT'))
-selected_champs.append(('Talon', 'MID'))
-# BLUE
-selected_champs.append(('FiddleSticks', 'MID'))
-selected_champs.append(('Irelia', 'TOP'))
-# RED
-next_selection_lane = 'TOP'
-
-print('win rate: ', champ_recommender(selected_champs, next_selection_lane, lanes_map))
-
-# print(lanes_map)
+# lanes_map = get_lanes_map()
+# selected_champs = []
+# # BLUE
+# selected_champs.append(('Graves', 'JUNGLE'))
+# # RED
+# selected_champs.append(('Brand', 'SUPPORT'))
+# selected_champs.append(('Talon', 'MID'))
+# # BLUE
+# selected_champs.append(('FiddleSticks', 'MID'))
+# selected_champs.append(('Irelia', 'TOP'))
+# # RED
+# next_selection_lane = 'TOP'
