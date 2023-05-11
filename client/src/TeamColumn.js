@@ -135,7 +135,7 @@ const filteredChampions = championData.filter((champion) =>
                     >
                       <img src={champion.iconImageLink}
                            alt={champion.champName}
-                           style={{ width: '2rem', margin: '0.1rem' }} />
+                           style={{ width: '1.5rem', margin: '0.1rem' }} />
                       <span style={{ marginLeft: '0.3rem' }}> {champion.winRate}% - {champion.champName} </span>
                     </div>
                   ))}
@@ -145,7 +145,6 @@ const filteredChampions = championData.filter((champion) =>
           </div>
         </Modal.Body>
       </Modal>
-
 
   </div>
   );

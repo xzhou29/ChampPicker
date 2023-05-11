@@ -26,6 +26,7 @@ function ChampPickerPage() {
       // Extract the second value and add it to the Set
       secondValuesSet.add(value[1]);
     }
+    console.log(selections)
     setSelectedChampions(secondValuesSet);
 
     fetch(

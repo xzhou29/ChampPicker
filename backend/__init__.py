@@ -1,7 +1,7 @@
 from flask import g, render_template, send_file, Flask, send_from_directory
 from logging.config import dictConfig
 import requests
-import time
+import logging
 
 def create_app(config_filename, config_overrides=dict()):
     dictConfig({
@@ -31,21 +31,25 @@ def create_app(config_filename, config_overrides=dict()):
     from . import api
     app.register_blueprint(api.bp, url_prefix='/api')
 
-    @app.route('/static/<path:filename>')
-    def serve_static(filename):
-        response = send_from_directory(app.static_folder, filename)
-        # Set caching headers
-        response.cache_control.max_age = 31536000  # Cache for 1 year
-        response.expires = int(time.time() + 31536000)
-        return response
+    # @app.route('/static/<path:filename>')
+    # def serve_static(filename):
+    #     response = send_from_directory(app.static_folder, filename)
+    #     # Set caching headers
+    #     response.cache_control.max_age = 31536000  # Cache for 1 year
+    #     response.expires = int(time.time() + 31536000)
+    #     return response
+    # Disable logging for static file requests
+    log = logging.getLogger('werkzeug')
+    log.setLevel(logging.ERROR)
 
     @app.route('/', defaults={'path': ''})
     @app.route('/<path:path>')
     def catch_all(path):
         if app.debug:
-            # return requests.get('http://localhost:3000/{}'.format(path)).text
-            return send_from_directory(app.static_folder, 'index.html')
+            return requests.get('http://localhost:3000/{}'.format(path)).text
+            # return send_from_directory(app.static_folder, 'index.html')
         return send_from_directory(app.static_folder, 'index.html')
+
 
     return app
 
