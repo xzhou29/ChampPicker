@@ -1,0 +1,2 @@
+# config.py
+API_KEY = 'RGAPI-374e6b80-b988-4495-8210-c8a606f4325f'
