@@ -30,7 +30,7 @@ function ChampionCard({ champion, teamName, handleChange, handleImageClickForDat
   };
 
   const handleDeleteImage = () => {
-    setImage('/images/select.png');
+    setImage('public/images/select.png');
     setDeleteButton(false);
     setName('Removed');
     setPrevName(name)
