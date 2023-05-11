@@ -150,27 +150,27 @@ function TeamColumn( {cardRowClassName, teamName, handleChange, championData, ha
       {
         champName: 'N/A',
         laneName: 'Lane',
-        IconImageLink: './images/select.png',
+        IconImageLink: './public/images/select.png',
       },
       {
         champName: 'N/A',
         laneName: 'Lane',
-        IconImageLink: './images/select.png',
+        IconImageLink: './public/images/select.png',
       },
       {
         champName: 'N/A',
         laneName: 'Lane',
-        IconImageLink: './images/select.png',
+        IconImageLink: './public/images/select.png',
       },
       {
         champName: 'N/A',
         laneName: 'Lane',
-        IconImageLink: './images/select.png',
+        IconImageLink: './public/images/select.png',
       },
       {
         champName: 'N/A',
         laneName: 'Lane',
-        IconImageLink: './images/select.png',
+        IconImageLink: './public/images/select.png',
       },
     ];
     return (
