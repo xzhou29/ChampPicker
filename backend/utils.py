@@ -38,7 +38,7 @@ def extract_win_rate_any_champ(gameVersion):
         entry = {
             'champName': champName,
             'laneName': lane,
-            'iconImageLink': f'static/icons/{champName}.png',
+            'iconImageLink': f'static/mini_icons/{champName}.png',
             'winRate': round(winRate * 100, 1)
             }
         champDataAny.append(entry)

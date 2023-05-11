@@ -44,7 +44,8 @@ function ChampionCard({ champion, teamName, handleChange, handleImageClickForDat
   };
 
   const handleSelectChampion = (index, champion) => {
-    setImage(champion.iconImageLink);
+    let new_path = champion.iconImageLink.replace('static/mini_icon', 'static/icon');
+    setImage(new_path);
     setName(champion.champName);
     setShowModal(false);
     setDeleteButton(true);
