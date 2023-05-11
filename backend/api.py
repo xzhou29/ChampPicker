@@ -15,6 +15,7 @@ def hello():
 @bp.route('/champ_picker', methods=['POST'])
 def champ_picker():
     selections = request.json
+    # print(selections)
     # Do something with the selections object
     # Compute the win rates...+
     if len(selections) < 5:

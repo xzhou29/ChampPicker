@@ -4,48 +4,32 @@ import CardGroup from 'react-bootstrap/CardGroup';
 import TeamColumn from './TeamColumn'
 import ResultPredictionColumn from './ResultPredictionColumn'
 import axios from 'axios';
-import initialChampionData from './initialChampionData'
+//import initialChampionData from './initialChampionData'
 
 function ChampPickerPage() {
   const [gameVersion, setGameVersion] = useState('13.9');
   const [teamOneWinRate, setTeamOneWinRate] = useState('50.0');
   const [teamTwoWinRate, setTeamTwoWinRate] = useState('50.0');
   const [selections, setSelections] = useState({});
-  const [championData, setChampionData] = useState(initialChampionData);
+//  const [championData, setChampionData] = useState(initialChampionData);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    fetch(
-        '/api/initial_data', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(gameVersion)
-        }
-    )
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(data => {      // data is the JSON response from your API
-      setChampionData(data.champDataAny);
-    })
-    .catch(error => {
-      console.error('There has been a problem with your fetch operation:', error);
-    });
-  return;
-  }, []); // Empty array ensures this runs only once when the component mounts
+  const [selectedChampions, setSelectedChampions] = useState(new Set())
 
 
   useEffect(() => {
     if (Object.keys(selections).length === 0) {
         return
     }
-    console.log(Object.keys(selections).length)
+    const secondValuesSet = new Set();
+    // Iterate over the values of the selections dictionary
+    for (const value of Object.values(selections)) {
+      // Extract the second value and add it to the Set
+      secondValuesSet.add(value[1]);
+    }
+    setSelectedChampions(secondValuesSet);
+
     fetch(
+//        'http://localhost:3000/api/champ_picker', {
         '/api/champ_picker', {
           method: 'POST',
           headers: {
@@ -71,7 +55,7 @@ function ChampPickerPage() {
 
 
   const handleImageClickForData = (teamOn) => {
-      console.log(teamOn)
+      console.log(teamOn);
   };
 
   const handleChange = (team, name, lane, prevName) => {
@@ -107,18 +91,25 @@ function ChampPickerPage() {
         <Col lg={4} >
                 <TeamColumn teamName={'Team 1'} handleChange={handleChange}
                             handleImageClickForData={handleImageClickForData}
-                            championData={championData}/>
+                            gameVersion={gameVersion}
+                            selectedChampions={selectedChampions}
+                            />
         </Col>
 
         <Col lg={4} className="text-center">
+            <label for="region-select" style={{margin: '1rem'}} >Select Region:  </label>
+                <select id="region-select">
+                <option value="NA">North America </option>
+            </select>
             <ResultPredictionColumn teamOneWinRate={teamOneWinRate} teamTwoWinRate={teamTwoWinRate} />
         </Col>
 
 
         <Col lg={4} className="text-right">
                 <TeamColumn teamName={'Team 2'} handleChange={handleChange}
-                        championData={championData}
+                        gameVersion={gameVersion}
                         handleImageClickForData={handleImageClickForData}
+                        selectedChampions={selectedChampions}
                         cardRowClassName={"justify-content-end"} />
         </Col>
       </Row>

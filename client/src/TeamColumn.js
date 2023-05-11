@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Container, Row, Col, Dropdown, FormControl, Button, Card, Modal, Form, DropdownButton, Table } from 'react-bootstrap';
 import CardGroup from 'react-bootstrap/CardGroup';
-//import championData from './championData';
+import initialChampionData from './initialChampionData'
 import '../public/css/style.css';
 
-function ChampionCard({ champion, teamName, handleChange, handleImageClickForData,  championData}) {
+function ChampionCard({ champion, teamName, handleChange, handleImageClickForData,  championData, selectedChampions}) {
   const [image, setImage] = useState(champion.IconImageLink);
   const [name, setName] = useState(champion.champName);
   const [prevName, setPrevName] = useState();
@@ -37,8 +37,10 @@ function ChampionCard({ champion, teamName, handleChange, handleImageClickForDat
   };
 
   const handleImageClick = () => {
-    handleImageClickForData(team)
-    setShowModal(true);
+    if (showDeleteButton == false) {
+        handleImageClickForData(team)
+        setShowModal(true);
+    }
   };
 
   const handleSelectChampion = (index, champion) => {
@@ -48,10 +50,12 @@ function ChampionCard({ champion, teamName, handleChange, handleImageClickForDat
     setDeleteButton(true);
   };
 
-  // Filter the champions based on the search text
-  const filteredChampions = championData.filter((champion) =>
-    champion.champName.toLowerCase().includes(searchText.toLowerCase())
-  );
+
+// Filter the champions based on the search text and excluding the selected champions
+const filteredChampions = championData.filter((champion) =>
+  champion.champName.toLowerCase().includes(searchText.toLowerCase()) &&
+  !selectedChampions.has(champion.champName)
+);
 
   return (
   <div>
@@ -92,8 +96,8 @@ function ChampionCard({ champion, teamName, handleChange, handleImageClickForDat
       </Card.Body>
     </Card>
 
-    <Modal show={showModal} onHide={() => setShowModal(false)}  size="xl" >
 
+    <Modal show={showModal} onHide={() => setShowModal(false)}  size="xl" >
         <Modal.Header closeButton>
           <Modal.Title>Select a Champion</Modal.Title>
         </Modal.Header>
@@ -140,11 +144,41 @@ function ChampionCard({ champion, teamName, handleChange, handleImageClickForDat
           </div>
         </Modal.Body>
       </Modal>
+
+
   </div>
   );
 }
 
-function TeamColumn( {cardRowClassName, teamName, handleChange, championData, handleImageClickForData} ) {
+function TeamColumn( {cardRowClassName, teamName, handleChange, handleImageClickForData, gameVersion, selectedChampions} ) {
+    const [championData, setChampionData] = useState(initialChampionData);
+
+    useEffect(() => {
+        fetch(
+            //'http://localhost:3000/api/initial_data', {
+            '/api/initial_data', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(gameVersion)
+            }
+        )
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {      // data is the JSON response from your API
+          setChampionData(data.champDataAny);
+        })
+        .catch(error => {
+          console.error('There has been a problem with your fetch operation:', error);
+        });
+        return;
+    }, []); // Empty array ensures this runs only once when the component mounts
+
     // initialize number of spots
     const champions = [
       {
@@ -178,9 +212,12 @@ function TeamColumn( {cardRowClassName, teamName, handleChange, championData, ha
             <h4> {teamName} </h4>
             {champions.map((champion, index) => (
               <Row  key={index} className={cardRowClassName}>
-                <ChampionCard  champion={champion} teamName={teamName}
-                                handleChange={handleChange} handleImageClickForData={handleImageClickForData}
-                               championData={championData}
+                <ChampionCard   champion={champion}
+                                teamName={teamName}
+                                handleChange={handleChange}
+                                handleImageClickForData={handleImageClickForData}
+                                championData={championData}
+                                selectedChampions={selectedChampions}
                 />
               </Row>
             ))}
