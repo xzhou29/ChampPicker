@@ -2,8 +2,10 @@ from flask import Flask, jsonify, Blueprint, request, Response, send_file, curre
 from flask_cors import CORS
 from backend.riot.champ_picker import ChampPicker
 from backend import utils
+from flask import send_from_directory
+import time
 
-bp = Blueprint('api', __name__)
+bp = Blueprint('api', __name__, static_folder='static')
 CORS(bp)
 
 

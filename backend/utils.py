@@ -38,16 +38,8 @@ def extract_win_rate_any_champ(gameVersion):
         entry = {
             'champName': champName,
             'laneName': lane,
-            'iconImageLink': f'./public/icons/{champName}.png',
+            'iconImageLink': f'static/icons/{champName}.png',
             'winRate': round(winRate * 100, 1)
             }
         champDataAny.append(entry)
     return champDataAny
-    # fname = f'data/icons/{champName}.png'
-    # if not os.path.exists(fname):
-    #     url = f'https://cdn.communitydragon.org/13.9.0/champion/{champName}/square'
-    #     response = requests.get(url)
-    #     if response.status_code == 200:
-    #             with open(fname, 'wb') as f:
-    #                 f.write(response.content)
-    #             print(f'saved as: {fname}')

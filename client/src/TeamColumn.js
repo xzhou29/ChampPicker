@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Container, Row, Col, Dropdown, FormControl, Button, Card, Modal, Form, DropdownButton, Table } from 'react-bootstrap';
 import CardGroup from 'react-bootstrap/CardGroup';
 import initialChampionData from './initialChampionData'
-import '../public/css/style.css';
+import '../static/css/style.css';
 
 function ChampionCard({ champion, teamName, handleChange, handleImageClickForData,  championData, selectedChampions}) {
   const [image, setImage] = useState(champion.IconImageLink);
@@ -30,7 +30,7 @@ function ChampionCard({ champion, teamName, handleChange, handleImageClickForDat
   };
 
   const handleDeleteImage = () => {
-    setImage('public/images/select.png');
+    setImage('static/images/select.png');
     setDeleteButton(false);
     setName('Removed');
     setPrevName(name)
@@ -184,27 +184,27 @@ function TeamColumn( {cardRowClassName, teamName, handleChange, handleImageClick
       {
         champName: 'N/A',
         laneName: 'Lane',
-        IconImageLink: './public/images/select.png',
+        IconImageLink: 'static/images/select.png',
       },
       {
         champName: 'N/A',
         laneName: 'Lane',
-        IconImageLink: './public/images/select.png',
+        IconImageLink: 'static/images/select.png',
       },
       {
         champName: 'N/A',
         laneName: 'Lane',
-        IconImageLink: './public/images/select.png',
+        IconImageLink: 'static/images/select.png',
       },
       {
         champName: 'N/A',
         laneName: 'Lane',
-        IconImageLink: './public/images/select.png',
+        IconImageLink: 'static/images/select.png',
       },
       {
         champName: 'N/A',
         laneName: 'Lane',
-        IconImageLink: './public/images/select.png',
+        IconImageLink: 'static/images/select.png',
       },
     ];
     return (
