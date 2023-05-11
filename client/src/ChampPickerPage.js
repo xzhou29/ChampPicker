@@ -40,10 +40,8 @@ function ChampPickerPage() {
         });
         return
     }
-    // axios.post('/api/'+'champ_picker?team=${team}&name=${name}&lane=${lane}')
-    // fetch(`http://localhost:3000/api/champ_picker?selections=${selections}`
     fetch(
-        'http://localhost:3000/api/champ_picker', {
+        '/api/champ_picker', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
