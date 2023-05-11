@@ -29,11 +29,11 @@ def create_app(config_filename, config_overrides=dict()):
         app.API_KEY = app.config['API_KEY']
     from . import api
     app.register_blueprint(api.bp, url_prefix='/api')
-    @app.route('/', defaults={'path': ''})
-    @app.route('/<path:path>')
-    def catch_all(path):
-        if app.debug:
-            return requests.get('http://localhost:3000/{}'.format(path)).text
-        return send_from_directory(app.static_folder, 'index.html')
+    # @app.route('/', defaults={'path': ''})
+    # @app.route('/<path:path>')
+    # def catch_all(path):
+    #     if app.debug:
+    #         return requests.get('http://localhost:3000/{}'.format(path)).text
+    #     return send_from_directory(app.static_folder, 'index.html')
 
     return app

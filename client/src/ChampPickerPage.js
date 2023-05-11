@@ -18,8 +18,7 @@ function ChampPickerPage() {
 
   useEffect(() => {
     if (Object.keys(selections).length === 0) {
-        fetch(
-            'http://localhost:3000/api/initial_data', {
+        fetch('/api/initial_data', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
