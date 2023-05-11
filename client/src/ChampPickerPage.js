@@ -12,34 +12,39 @@ function ChampPickerPage() {
   const [teamTwoWinRate, setTeamTwoWinRate] = useState('50.0');
   const [selections, setSelections] = useState({});
   const [championData, setChampionData] = useState(initialChampionData);
-  const [championDataOne, setChampionDataOne] = useState();
-  const [championDataTwo, setChampionDataTwo] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    fetch(
+        '/api/initial_data', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(gameVersion)
+        }
+    )
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {      // data is the JSON response from your API
+      setChampionData(data.champDataAny);
+    })
+    .catch(error => {
+      console.error('There has been a problem with your fetch operation:', error);
+    });
+  return;
+  }, []); // Empty array ensures this runs only once when the component mounts
+
+
+  useEffect(() => {
     if (Object.keys(selections).length === 0) {
-        fetch('/api/initial_data', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(gameVersion)
-            }
-        )
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then(data => {      // data is the JSON response from your API
-          setChampionData(data.champDataAny)
-        })
-        .catch(error => {
-          console.error('There has been a problem with your fetch operation:', error);
-        });
         return
     }
+    console.log(Object.keys(selections).length)
     fetch(
         '/api/champ_picker', {
           method: 'POST',
@@ -58,25 +63,15 @@ function ChampPickerPage() {
     .then(data => {      // data is the JSON response from your API
       setTeamOneWinRate(data.teamOneWinRate);
       setTeamTwoWinRate(data.teamTwoWinRate);
-      //setChampionDataOne(data.teamOneChampPicks);
-      //setChampionDataTwo(data.teamTwoChampPicks);
     })
     .catch(error => {
       console.error('There has been a problem with your fetch operation:', error);
     });
   }, [selections]);
 
+
   const handleImageClickForData = (teamOn) => {
-    console.log(teamOn)
-//    if (teamOn == 'Team 1') {
-//        if (championDataOne !== undefined && championDataOne !== null) {
-//            setChampionData(championDataOne);
-//        }
-//    } else  {
-//        if (championDataTwo !== undefined && championDataTwo !== null) {
-//            setChampionData(championDataTwo);
-//        }
-//    }
+      console.log(teamOn)
   };
 
   const handleChange = (team, name, lane, prevName) => {

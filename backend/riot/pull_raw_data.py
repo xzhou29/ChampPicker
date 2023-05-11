@@ -11,8 +11,8 @@ from tqdm import tqdm
 api_key = 'RGAPI-f3a7c190-dd67-4bf3-9703-50f698b4cfb4'
 # Set the base URL for the Riot API
 BASE_URL = 'https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/'
-# tiers = ['CHALLENGER', 'GRANDMASTER', 'MASTER']
-tiers = ['DIAMOND']
+tiers = ['CHALLENGER', 'GRANDMASTER', 'MASTER']
+# tiers = ['DIAMOND']
 # database.drop_table('match_history')
 database.initialization()
 # sys.exit(0)

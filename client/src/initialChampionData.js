@@ -5,7 +5,7 @@ const initialChampionData = [
   {
     champName: 'Amumu',
     laneName: 'JUNGLE',
-    iconImageLink: 'https://cdn.communitydragon.org/10.16.1/champion/Amumu/square',
+    iconImageLink: 'https://cdn.communitydragon.org/13.9.0/champion/Amumu/square',
     winRate: '51.2'
   }
 ];
