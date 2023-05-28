@@ -9,7 +9,7 @@ from tqdm import tqdm
 # Now you can access the API_KEY
 # api_key = current_app.API_KEY
 # replace this by your own API key
-api_key = 'RGAPI-f3a7c190-dd67-4bf3-9703-50f698b4cfb4'
+api_key = ''
 # Set the base URL for the Riot API
 BASE_URL = 'https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/'
 tiers = ['CHALLENGER', 'GRANDMASTER', 'MASTER']
